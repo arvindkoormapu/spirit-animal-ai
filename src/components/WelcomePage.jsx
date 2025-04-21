@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import swirlBg from '../assets/backgrounds/swirl-bg.png';
 import frameImg from '../assets/frame/final-frame3.png';
 import greenLeft from '../assets/backgrounds/green2.png';
@@ -8,11 +8,15 @@ import { useTranslation } from 'react-i18next';
 
 export default function WelcomePage({ name, setName, onStart }) {
   const { t, i18n } = useTranslation();
+  const [showError, setShowError] = useState(false);
 
   const handleStart = () => {
-    if (name.trim()) {
-      onStart();
+    if (name.trim() === '') {
+      setShowError(true);
+      return;
     }
+    setShowError(false);
+    onStart();
   };
 
   return (
@@ -75,6 +79,11 @@ export default function WelcomePage({ name, setName, onStart }) {
             onChange={(e) => setName(e.target.value)}
             className="font-avenir mt-4 w-[350px] text-[26px] text-center px-10 py-4 rounded-full border focus:outline-none focus:ring-2 focus:ring-primary"
           />
+          {showError && (
+            <p className="text-red-600 font-avenir mt-2 text-[16px]">
+             {t("Please enter your name to continue.")}
+            </p>
+          )}
 
           <button
             onClick={handleStart}

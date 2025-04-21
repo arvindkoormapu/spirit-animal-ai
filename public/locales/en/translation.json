@@ -6,6 +6,11 @@
     "quiz": {
         "loader1": "Now we have a guess about your spirit animal. Let’s discover your adventure!",
         "loader2": "Let’s reveal your spirit animal and go on an AI-generated adventure made just for you!",
+        "q0": {
+            "text": "Who would you like your character to be in the story?",
+            "a1": "Boy",
+            "a2": "Girl"
+        },
         "q1": {
             "text": "What would you do if you saw two friends arguing?",
             "a1": "Try to help them talk it out",
@@ -90,5 +95,9 @@
         "playful": "Playful",
         "creative": "Creative",
         "witty": "Witty"
-    }
+    },
+    "Successfully sent your story!": "Successfully sent your story!",
+    "Send story to your email": "Send story to your email",
+    "Enter your email": "Enter your email",
+    "Please enter your name to continue.": "Please enter your name to continue."
 }

@@ -3,7 +3,6 @@ import React, { useRef, useState } from 'react';
 import swirlBg from '../assets/backgrounds/swirl-bg.png';
 import greenLeft from '../assets/backgrounds/green5.png';
 import logoRight from '../assets/backgrounds/logo-right.png';
-import axios from 'axios';
 import emailjs from '@emailjs/browser';
 import { useTranslation } from 'react-i18next';
 
@@ -13,7 +12,7 @@ const VITE_EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
 export default function FinalReveal({ animal, adaptation, story, title, moral }) {
   const { t, i18n } = useTranslation();
-
+  const isRTL = i18n.language === 'ar';
   const printRef = useRef(null);
   const [showEmailPopup, setShowEmailPopup] = useState(false);
   const [email, setEmail] = useState('');
@@ -46,23 +45,28 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
           {
             user_email: email,
             animal_name: t(`animals.${animal.name}`),
-            traits: animal.traits.join(', '),
+            traits: animal.traits.map(trait => t(`traits.${trait}`)).join(', '),
             adaptation: t(`adaptation.${adaptation}`),
             image_url: `${window.location.origin}${animal.image}`,
+            logo_url: `${window.location.origin}/logo-right.png`,
             story_title: title,
             story: story,
             moral: moral,
+            spirit_label: t('Spirit Animal'),
+            adaptation_label: t('Adaptation'),
+            moral_label: t('Moral'),
+            direction: i18n.language === 'ar' ? 'rtl' : 'ltr',
+            alignment: i18n.language === 'ar' ? 'right' : 'left',
           },
           VITE_EMAILJS_PUBLIC_KEY
         );
-        setEmailSent(true);
-        setShowEmailPopup(false);
         setEmail('');
       } catch (error) {
         console.error('EmailJS Error:', error);
         alert('Failed to send email. Please try again.');
       } finally {
         setIsSending(false);
+        setEmailSent(true);
       }
     } catch (error) {
       console.error('Failed to send email:', error);
@@ -87,7 +91,13 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
       <img
         src={logoRight}
         alt="logo top right"
-        className="absolute top-[0px] right-[20px] w-[300px] z-10 print:hidden"
+        className="absolute top-[0px] right-[20px] w-[300px] z-10 block print:hidden"
+      />
+      
+      <img
+        src={logoRight}
+        alt="logo top right"
+        className="absolute top-[20px] right-[20px] w-[200px] z-10 hidden print:block"
       />
 
       <div ref={printRef} className="flex flex-col items-center justify-center min-h-screen px-6 print:min-h-0 print:px-0">
@@ -100,7 +110,7 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
             />
           </div>
 
-          <div className="w-full px-2 md:px-4">
+          <div className={`w-full px-2 md:px-4 ${isRTL ? 'text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>
             <p className="font-avenir text-[22px] font-bold text-secondary">
               {t("Spirit Animal")}: <span className="italic font-normal">{t(`animals.${animal.name}`)}</span> {' '}
               (
@@ -152,19 +162,19 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                         </svg>
                       </div>
-                      <p className="mt-4 font-bold text-lg font-avenir">Successfully sent your story!</p>
+                      <p className="mt-4 font-bold text-lg font-avenir">{t("Successfully sent your story!")}</p>
                     </div>
                   </>
                 ) : (
                   <>
                     <button onClick={() => setShowEmailPopup(false)} className="absolute top-2 right-3 text-xl">×</button>
-                    <h3 className="font-avenir text-xl font-bold mb-10">Send story to your email</h3>
+                    <h3 className="font-avenir text-xl font-bold mb-10">{t("Send story to your email")}</h3>
 
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email"
+                      placeholder={t("Enter your email")}
                       className="font-avenir w-[350px] px-4 py-3 border rounded-full text-secondary text-center hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary transition duration-200"
                     />
                     {emailError && <p className="text-primary mt-2 text-sm">{emailError}</p>}

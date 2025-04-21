@@ -13,6 +13,15 @@ function useQuizData(t) {
     {
       type: 'question',
       id: 1,
+      text: t('quiz.q0.text'),
+      options: [
+        { text: t('quiz.q0.a1'), character: 'boy' },
+        { text: t('quiz.q0.a2'), character: 'girl' }
+      ]
+    },
+    {
+      type: 'question',
+      id: 2,
       text: t('quiz.q1.text'),
       options: [
         { text: t('quiz.q1.a1'), animal: 'elephant' },
@@ -23,7 +32,7 @@ function useQuizData(t) {
     },
     {
       type: 'question',
-      id: 2,
+      id: 3,
       text: t('quiz.q2.text'),
       options: [
         { text: t('quiz.q2.a1'), animal: 'lion' },
@@ -34,7 +43,7 @@ function useQuizData(t) {
     },
     {
       type: 'question',
-      id: 3,
+      id: 4,
       text: t('quiz.q3.text'),
       options: [
         { text: t('quiz.q3.a1'), animals: ['elephant', 'turtle'] },
@@ -51,7 +60,7 @@ function useQuizData(t) {
     },
     {
       type: 'question',
-      id: 4,
+      id: 5,
       text: t('quiz.q4.text'),
       options: [
         { text: t('quiz.q4.a1'), theme: 'The story involves discovery, nature, or finding a secret path' },
@@ -63,7 +72,7 @@ function useQuizData(t) {
     },
     {
       type: 'question',
-      id: 5,
+      id: 6,
       text: t('quiz.q5.text'),
       options: [
         { text: t('quiz.q5.a1'), adaptation: 'indian' },
@@ -115,9 +124,10 @@ function getFinalAnimal(answers) {
   };
 }
 
-function generateStoryPrompt({ name, animal, theme, adaptation, language }) {
+function generateStoryPrompt({ name, character, animal, theme, adaptation, language }) {
   return `
   Write a moral story for a child named ${name}.
+  The main character is a ${character.toLowerCase()}.
   His spirit animal is a ${capitalize(animal.name)} (${animal.traits.join(', ')}).
   He chose the adventure: ${theme}.
   The story should follow a ${adaptation} cultural style.
@@ -126,13 +136,13 @@ function generateStoryPrompt({ name, animal, theme, adaptation, language }) {
   Please return ONLY valid JSON using this format:
   {
     "title": "Title of the story in ${language}",
-    "story": "Exactly 150 words story in ${language}.",
+    "story": "A story of 150 words written in ${language}.",
     "moral": "A 1-line moral in ${language}"
   }
 
   Do not include any explanations, markdown, or extra formatting.
   Return only a valid JSON object as plain text.
-  Make sure the story has exactly 150 words.
+  Make sure the story is at least 150 words long. Do not stop early.
   `.trim();
 }
 
@@ -140,17 +150,18 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-async function generateStory({ name, animal, theme, adaptation, language }) {
+async function generateStory({ name, character, animal, theme, adaptation, language }) {
 
-  const prompt = generateStoryPrompt({ name, animal, theme, adaptation, language });
+  const prompt = generateStoryPrompt({ name, character, animal, theme, adaptation, language });
 
   try {
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4',
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0.7
+        temperature: 0.9,
+        max_tokens: 800,
       },
       {
         headers: {
@@ -198,6 +209,7 @@ export default function QuizFlow({ userName }) {
     if (!currentQuestion && !finalAnimal) {
       const result = getFinalAnimal(answers);
       const theme = answers.find(a => a.answer.theme)?.answer.theme;
+      const character = answers.find(a => a.answer.character)?.answer.character;
       const adaptation = answers.find(a => a.answer.adaptation)?.answer.adaptation;
 
       console.log('Final Animal:', result);
@@ -208,7 +220,7 @@ export default function QuizFlow({ userName }) {
 
       const language = i18n.language === 'ar' ? 'Emrati Arabic' : 'English';
 
-      generateStory({ name: userName, animal: result, theme, adaptation, language }).then((storyResponse) => {
+      generateStory({ name: userName, character, animal: result, theme, adaptation, language }).then((storyResponse) => {
         setFinalAnimal(result);
         setStoryData(storyResponse);
         setStoryReady(true);
