@@ -81,7 +81,7 @@ export default function WelcomePage({ name, setName, onStart }) {
           />
           {showError && (
             <p className="text-red-600 font-avenir mt-2 text-[16px]">
-             {t("Please enter your name to continue.")}
+             {t("Please enter your name to continue")}
             </p>
           )}
 
