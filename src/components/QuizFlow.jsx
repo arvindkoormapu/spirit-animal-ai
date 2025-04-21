@@ -128,7 +128,7 @@ function generateStoryPrompt({ name, character, animal, theme, adaptation, langu
   Do not name the animal as ${name}, and do not refer to the animal with the child’s name.
   The animal can be present as a guide, friend, or inspiration.
 
-  ${language.toLowerCase().includes('Emrati Arabic')
+  ${language.toLowerCase().includes('Formal Emrati Arabic')
       ? 'When referring to the spirit animal in Emrati Arabic, always use the phrase "الحيوان الرمزي".'
       : ''
     }
@@ -217,7 +217,7 @@ export default function QuizFlow({ userName }) {
 
       setIsGenerating(true);
 
-      const language = i18n.language === 'ar' ? 'Emrati Arabic' : 'English';
+      const language = i18n.language === 'ar' ? 'Formal Emrati Arabic' : 'English';
 
       generateStory({ name: userName, character, animal: result, theme, adaptation, language }).then((storyResponse) => {
         setFinalAnimal(result);
