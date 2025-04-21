@@ -56,7 +56,7 @@ function useQuizData(t) {
       type: 'loader',
       id: 'loader1',
       text: t('quiz.loader1'),
-      duration: 3000
+      duration: 6000
     },
     {
       type: 'question',
@@ -80,12 +80,6 @@ function useQuizData(t) {
         { text: t('quiz.q5.a3'), adaptation: 'persian' },
         { text: t('quiz.q5.a4'), adaptation: 'western' }
       ]
-    },
-    {
-      type: 'loader',
-      id: 'loader2',
-      text: t('quiz.loader2'),
-      duration: 10
     }
   ], [t]);
 }
@@ -130,14 +124,17 @@ function generateStoryPrompt({ name, character, animal, theme, adaptation, langu
   The main character is a ${character.toLowerCase()} named ${name}.
   Their spirit animal is a ${capitalize(animal.name)} (${animal.traits.join(', ')}).
   The story should follow a ${adaptation} cultural style and center around the chosen adventure: ${theme}.
-  
-  Do not name the animal as ${name}, and do not refer to the animal with the child’s name. 
+
+  Do not name the animal as ${name}, and do not refer to the animal with the child’s name.
   The animal can be present as a guide, friend, or inspiration.
+
+  ${language.toLowerCase().includes('Emrati Arabic')
+      ? 'When referring to the spirit animal in Emrati Arabic, always use the phrase "الحيوان الرمزي".'
+      : ''
+    }
 
   The story, including title, body, and moral, must be in ${language}.
   The title must include the child’s name (${name}).
-
-  The language of the story (including title, body, and moral) must be: ${language}.
 
   Please return ONLY valid JSON using this format:
   {
@@ -218,10 +215,6 @@ export default function QuizFlow({ userName }) {
       const character = answers.find(a => a.answer.character)?.answer.character;
       const adaptation = answers.find(a => a.answer.adaptation)?.answer.adaptation;
 
-      console.log('Final Animal:', result);
-      console.log('Theme:', theme);
-      console.log('Adaptation:', adaptation);
-
       setIsGenerating(true);
 
       const language = i18n.language === 'ar' ? 'Emrati Arabic' : 'English';
@@ -243,7 +236,7 @@ export default function QuizFlow({ userName }) {
       >
         <img src={greenLeft} alt="decorative plant left" className="absolute bottom-[0px] left-[20px] w-[200px] z-10" />
         <img src={logoRight} alt="logo top right" className="absolute top-[0px] right-[20px] w-[300px] z-10" />
-        <div className="text-[40px] font-avenir text-secondary animate-pulse max-w-xl">
+        <div className="text-[50px] font-avenir text-secondary animate-zoom-out max-w-xl">
           {t('quiz.loader2')}
         </div>
       </div>
@@ -265,7 +258,7 @@ export default function QuizFlow({ userName }) {
       >
         <img src={greenLeft} alt="decorative plant left" className="absolute bottom-[0px] left-[20px] w-[200px] z-10" />
         <img src={logoRight} alt="logo top right" className="absolute top-[0px] right-[20px] w-[300px] z-10" />
-        <div className="text-[40px] font-avenir text-secondary animate-pulse max-w-xl">
+        <div className="text-[50px] font-avenir text-secondary animate-zoom-grow max-w-xl">
           {currentQuestion.text}
         </div>
       </div>
