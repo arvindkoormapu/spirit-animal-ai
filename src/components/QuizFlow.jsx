@@ -119,42 +119,67 @@ function getFinalAnimal(answers) {
 }
 
 function generateStoryPrompt({ name, character, animal, theme, adaptation, language }) {
-  console.log('animal:', animal);
-  console.log('name:', name);
-  console.log('character:', character);
-  console.log('theme:', theme);
-  console.log('adaptation:', adaptation);
-  console.log('language:', language);
-  
-  return `
-  Write a moral story for a child named ${name}.
-  The main character is a ${character.toLowerCase()} named ${name}.
-  Their spirit animal is a ${capitalize(animal.name)} (${animal.traits.join(', ')}).
-  The story should follow a ${adaptation} cultural style and center around the chosen adventure: ${theme}.
+  if (language === 'en') {
+    return `
+    Write a moral story for a child named ${name}.
+    The main character is a ${character.toLowerCase()} named ${name}.
+    Their spirit animal is a ${capitalize(animal.name)} (${animal.traits.join(', ')}).
+    The story should follow a ${adaptation} cultural style and center around the chosen adventure: ${theme}.
 
-  Do not name the animal as ${name}, and do not refer to the animal using the child's name.
-  Do not compare the child to the animal.
-  The animal should appear as a guide, friend, or source of wisdom — not a reflection of the child.
+    In the story, make sure to clearly refer to the concept of a "spirit animal" using the exact phrase "spirit animal".
 
-  ${language.toLowerCase().includes('formal arabic')
-      ? 'When writing in Arabic, you MUST refer to the spirit animal as: "الحيوان المفضل" — do not use any other phrase.'
-      : ''
+    Do not name the animal as ${name}, and do not refer to the animal using the child's name.
+    Do not compare the child to the animal.
+    The animal should appear as a guide, friend, or source of wisdom — not a reflection of the child.
+
+    Avoid mystical or supernatural language — do not make the story spiritual or magical.
+    Keep the tone symbolic, moral, and child-friendly.
+
+    The story, including the title, body, and moral, must be written in English.
+    The title must include the child's name (${name}).
+
+    Please return ONLY valid JSON using this format:
+    {
+      "title": "Title of the story in English (must include ${name})",
+      "story": "A story of at least 150 words written in English.",
+      "moral": "A 1-line moral in English"
     }
 
-  The story, including title, body, and moral, must be in ${language}.
-  The title must include the child's name (${name}).
-
-  Please return ONLY valid JSON using this format:
-  {
-    "title": "Title of the story in ${language} (must include ${name})",
-    "story": "A story of 150 words written in ${language}.",
-    "moral": "A 1-line moral in ${language}"
-  }
-
-  Do not include any explanations, markdown, or extra formatting.
-  Return only a valid JSON object as plain text.
-  Make sure the story is at least 150 words long. Do not stop early.
+    Do not include any explanations, markdown, or extra formatting.
+    Return only a valid JSON object as plain text.
+    Make sure the story is at least 150 words long. Do not stop early.
   `.trim();
+  }
+  if (language === 'ar') {
+    return `
+    Write a moral story for a child named ${name}.
+    The main character is a ${character.toLowerCase()} named ${name}.
+    Their spirit animal is a ${capitalize(animal.name)} (${animal.traits.join(', ')}).
+    The story should follow a ${adaptation} cultural style and center around the chosen adventure: ${theme}.
+
+    In the story, make sure to clearly refer to the concept of a "spirit animal" using the Arabic term "الحيوان الرمزي".
+
+    Do not name the animal as ${name}, and do not refer to the animal using the child's name.
+    Do not compare the child to the animal.
+    The animal should appear as a guide, friend, or source of wisdom — not a reflection of the child.
+
+    Don't be spiritual — avoid mystical or supernatural language. Keep the tone symbolic, moral, and child-friendly.
+
+    The story, including title, body, and moral, must be in العربية الفصحى.
+    The title must include the child's name (${name}).
+
+    Please return ONLY valid JSON using this format:
+    {
+      "title": "Title of the story in العربية الفصحى (must include ${name})",
+      "story": "A story of at least 150 words written in العربية الفصحى.",
+      "moral": "A 1-line moral in العربية الفصحى"
+    }
+
+    Do not include any explanations, markdown, or extra formatting.
+    Return only a valid JSON object as plain text.
+    Make sure the story is at least 150 words long. Do not stop early.
+  `.trim();
+  }
 }
 
 function capitalize(str) {
@@ -225,7 +250,7 @@ export default function QuizFlow({ userName }) {
 
       setIsGenerating(true);
 
-      const language = i18n.language === 'ar' ? 'Formal Arabic' : 'English';
+      const language = i18n.language 
 
       generateStory({ name: userName, character, animal: result, theme, adaptation, language }).then((storyResponse) => {
         setFinalAnimal(result);
