@@ -56,7 +56,7 @@ function useQuizData(t) {
       type: 'loader',
       id: 'loader1',
       text: t('quiz.loader1'),
-      duration: 6000
+      duration: 3000
     },
     {
       type: 'question',
