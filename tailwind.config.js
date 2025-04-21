@@ -14,11 +14,12 @@ export default {
       keyframes: {
         'zoom-grow': {
           '0%': { transform: 'scale(1)', opacity: '1' },
-          '100%': { transform: 'scale(1.5)', opacity: '1' },
+          '100%': { transform: 'scale(1.2)', opacity: '1' },
         },
       },
       animation: {
         'zoom-grow': 'zoom-grow 10s ease-in-out forwards',
+        'spin-slow': 'spin 2s linear infinite',
       },
     },
   },

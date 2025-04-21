@@ -93,12 +93,6 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
         alt="logo top right"
         className="absolute top-[0px] right-[20px] w-[300px] z-10 block print:hidden"
       />
-      
-      <img
-        src={logoRight}
-        alt="logo top right"
-        className="absolute top-[20px] right-[20px] w-[200px] z-10 hidden print:block"
-      />
 
       <div ref={printRef} className="flex flex-col items-center justify-center min-h-screen px-6 print:min-h-0 print:px-0">
         <div className="bg-white flex flex-col items-center justify-start px-10 py-12 mx-auto w-[90%] max-w-[1200px] rounded-[20px] max-h-[90vh] overflow-y-auto relative print:w-full print:max-w-none print:rounded-none print:overflow-visible print:h-auto print:p-10">
@@ -106,7 +100,7 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
             <img
               src={animal.image}
               alt={animal.name}
-              className="w-[300px] mx-auto"
+              className="w-[300px] print:w-[150px] mx-auto"
             />
           </div>
 
@@ -194,6 +188,12 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
           )}
         </div>
       </div>
+
+      <img
+        src={logoRight}
+        alt="logo top right"
+        className="absolute bottom-[20px] left-[20px] w-[100px] z-10 hidden print:block"
+      />
     </div>
   );
 }

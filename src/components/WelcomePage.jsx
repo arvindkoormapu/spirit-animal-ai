@@ -57,7 +57,10 @@ export default function WelcomePage({ name, setName, onStart }) {
       </div>
 
 
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
+      <div
+        className={`relative z-10 flex flex-col items-center justify-center min-h-screen px-6 ${i18n.language === 'ar' ? 'text-right' : 'text-center'}`}
+        dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
+      >
         <img
           src={logoRight}
           alt="logo top right"
@@ -81,7 +84,7 @@ export default function WelcomePage({ name, setName, onStart }) {
           />
           {showError && (
             <p className="text-red-600 font-avenir mt-2 text-[16px]">
-             {t("Please enter your name to continue")}
+              {t("Please enter your name to continue")}
             </p>
           )}
 

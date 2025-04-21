@@ -56,7 +56,7 @@ function useQuizData(t) {
       type: 'loader',
       id: 'loader1',
       text: t('quiz.loader1'),
-      duration: 3000
+      duration: 6000
     },
     {
       type: 'question',
@@ -119,22 +119,30 @@ function getFinalAnimal(answers) {
 }
 
 function generateStoryPrompt({ name, character, animal, theme, adaptation, language }) {
+  console.log('animal:', animal);
+  console.log('name:', name);
+  console.log('character:', character);
+  console.log('theme:', theme);
+  console.log('adaptation:', adaptation);
+  console.log('language:', language);
+  
   return `
   Write a moral story for a child named ${name}.
   The main character is a ${character.toLowerCase()} named ${name}.
   Their spirit animal is a ${capitalize(animal.name)} (${animal.traits.join(', ')}).
   The story should follow a ${adaptation} cultural style and center around the chosen adventure: ${theme}.
 
-  Do not name the animal as ${name}, and do not refer to the animal with the child’s name.
-  The animal can be present as a guide, friend, or inspiration.
+  Do not name the animal as ${name}, and do not refer to the animal using the child's name.
+  Do not compare the child to the animal.
+  The animal should appear as a guide, friend, or source of wisdom — not a reflection of the child.
 
-  ${language.toLowerCase().includes('Formal Emrati Arabic')
-      ? 'When referring to the spirit animal in Emrati Arabic, always use the phrase "الحيوان الرمزي".'
+  ${language.toLowerCase().includes('formal arabic')
+      ? 'When writing in Arabic, you MUST refer to the spirit animal as: "الحيوان المفضل" — do not use any other phrase.'
       : ''
     }
 
   The story, including title, body, and moral, must be in ${language}.
-  The title must include the child’s name (${name}).
+  The title must include the child's name (${name}).
 
   Please return ONLY valid JSON using this format:
   {
@@ -217,7 +225,7 @@ export default function QuizFlow({ userName }) {
 
       setIsGenerating(true);
 
-      const language = i18n.language === 'ar' ? 'Formal Emrati Arabic' : 'English';
+      const language = i18n.language === 'ar' ? 'Formal Arabic' : 'English';
 
       generateStory({ name: userName, character, animal: result, theme, adaptation, language }).then((storyResponse) => {
         setFinalAnimal(result);
@@ -231,13 +239,16 @@ export default function QuizFlow({ userName }) {
   if (isGenerating || (!storyReady && finalAnimal)) {
     return (
       <div
-        className="flex items-center justify-center min-h-screen bg-cover bg-center text-center px-6"
-        style={{ backgroundImage: `url(${swirlBg})` }}
+        className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center text-center px-6 relative"
+        style={{ backgroundImage: `url(${swirlBg})` }} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
       >
         <img src={greenLeft} alt="decorative plant left" className="absolute bottom-[0px] left-[20px] w-[200px] z-10" />
         <img src={logoRight} alt="logo top right" className="absolute top-[0px] right-[20px] w-[300px] z-10" />
-        <div className="text-[50px] font-avenir text-secondary animate-zoom-grow max-w-xl">
+        <div className="text-[50px] font-avenir text-secondary animate-zoom-grow max-w-xl mb-8">
           {t('quiz.loader2')}
+        </div>
+        <div className="mb-6">
+          <div className="border-4 border-primary border-t-transparent rounded-full w-16 h-16 animate-spin-slow mx-auto"></div>
         </div>
       </div>
     );
@@ -253,12 +264,12 @@ export default function QuizFlow({ userName }) {
   if (currentQuestion.type === 'loader') {
     return (
       <div
-        className="flex items-center justify-center min-h-screen bg-cover bg-center text-center px-6"
-        style={{ backgroundImage: `url(${swirlBg})` }}
+        className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center text-center px-6 relative"
+        style={{ backgroundImage: `url(${swirlBg})` }} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
       >
         <img src={greenLeft} alt="decorative plant left" className="absolute bottom-[0px] left-[20px] w-[200px] z-10" />
         <img src={logoRight} alt="logo top right" className="absolute top-[0px] right-[20px] w-[300px] z-10" />
-        <div className="text-[50px] font-avenir text-secondary animate-zoom-grow max-w-xl">
+        <div className="text-[50px] font-avenir text-secondary animate-zoom-grow max-w-xl mb-8">
           {currentQuestion.text}
         </div>
       </div>
@@ -298,7 +309,10 @@ export default function QuizFlow({ userName }) {
             {currentQuestion.options.slice(0, 4).map((option, idx) => (
               <button
                 key={idx}
-                onClick={() => handleAnswerClick(option)}
+                onClick={(e) => {
+                  e.currentTarget.blur();
+                  handleAnswerClick(option)
+                }}
                 className="bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
               >
                 {option.text}
@@ -307,7 +321,10 @@ export default function QuizFlow({ userName }) {
 
             {currentQuestion.options.length === 5 && (
               <button
-                onClick={() => handleAnswerClick(currentQuestion.options[4])}
+                onClick={(e) => {
+                  e.currentTarget.blur();
+                  handleAnswerClick(currentQuestion.options[4])
+                }}
                 className="col-span-2 bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
               >
                 {currentQuestion.options[4].text}
