@@ -61,12 +61,12 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
           VITE_EMAILJS_PUBLIC_KEY
         );
         setEmail('');
+        setEmailSent(true); 
       } catch (error) {
         console.error('EmailJS Error:', error);
         alert('Failed to send email. Please try again.');
       } finally {
         setIsSending(false);
-        setEmailSent(true);
       }
     } catch (error) {
       console.error('Failed to send email:', error);
