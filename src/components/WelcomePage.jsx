@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import swirlBg from '../assets/backgrounds/swirl-bg.png';
 import frameImg from '../assets/frame/final-frame3.png';
 import greenLeft from '../assets/backgrounds/green2.png';

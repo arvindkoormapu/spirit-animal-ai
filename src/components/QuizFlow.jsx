@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-// import quizData from './quizData.json';
 import swirlBg from '../assets/backgrounds/swirl-bg.png';
 import greenLeft from '../assets/backgrounds/green5.png';
 import logoRight from '../assets/backgrounds/logo-right.png';
@@ -237,13 +236,6 @@ export default function QuizFlow({ userName }) {
     const adaptation = answers.find(a => a.answer.adaptation)?.answer.adaptation;
     return <FinalReveal animal={finalAnimal} adaptation={adaptation} title={storyData.title} story={storyData.story} moral={storyData.moral} />;
   }
-
-  // if (finalAnimal && storyReady) {
-  //   const title = 'Sara and the Mountain of Mirrors'
-  //   const story = 'In a warm land of golden sands and tall palm trees, a girl named Sara stood with her friend the Hare at the bottom of Jabal al-Hikmah—the Mountain of Wisdom. "Let’s race to the top!" shouted Hare, and off they went, laughing and running. But the mountain was steep, and the sun was hot. Soon, Hare darted ahead, playful and impulsive, jumping from rock to rock. Sara followed carefully, climbing step by step. Halfway up, Hare grew tired and stopped, panting heavily beneath the scorching sun. Sara caught up, gently offered Hare water, and said softly, "We must pace ourselves and respect the mountain’s path." Hare nodded, realizing his haste had cost him dearly. Together, they continued upward steadily, sharing strength and laughter. At the summit, the view filled them with wonder. Hare smiled at Sara, whispering wisely, "Slow and steady does indeed win the race."'
-  //   const moral ='Quick feet are good—but wise minds go farther'
-  //   return <FinalReveal animal={finalAnimal} userName={userName} title={title} story={story} moral={moral} />;
-  // }
 
   if (!currentQuestion) return null;
 
