@@ -127,15 +127,21 @@ function getFinalAnimal(answers) {
 function generateStoryPrompt({ name, character, animal, theme, adaptation, language }) {
   return `
   Write a moral story for a child named ${name}.
-  The main character is a ${character.toLowerCase()}.
-  His spirit animal is a ${capitalize(animal.name)} (${animal.traits.join(', ')}).
-  He chose the adventure: ${theme}.
-  The story should follow a ${adaptation} cultural style.
-  The language of the story (including title, story, and moral) must be: ${language}
+  The main character is a ${character.toLowerCase()} named ${name}.
+  Their spirit animal is a ${capitalize(animal.name)} (${animal.traits.join(', ')}).
+  The story should follow a ${adaptation} cultural style and center around the chosen adventure: ${theme}.
+  
+  Do not name the animal as ${name}, and do not refer to the animal with the child’s name. 
+  The animal can be present as a guide, friend, or inspiration.
+
+  The story, including title, body, and moral, must be in ${language}.
+  The title must include the child’s name (${name}).
+
+  The language of the story (including title, body, and moral) must be: ${language}.
 
   Please return ONLY valid JSON using this format:
   {
-    "title": "Title of the story in ${language}",
+    "title": "Title of the story in ${language} (must include ${name})",
     "story": "A story of 150 words written in ${language}.",
     "moral": "A 1-line moral in ${language}"
   }

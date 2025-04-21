@@ -111,7 +111,7 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
           </div>
 
           <div className={`w-full px-2 md:px-4 ${isRTL ? 'text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>
-            <p className="font-avenir text-[22px] font-bold text-secondary">
+            <p className="font-avenir text-[18px] font-bold text-secondary">
               {t("Spirit Animal")}: <span className="italic font-normal">{t(`animals.${animal.name}`)}</span> {' '}
               (
               {animal.traits.map((trait, index) => (
@@ -123,20 +123,20 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
               )
             </p>
 
-            <p className="font-avenir text-[22px] font-bold mt-4 text-secondary">
+            <p className="font-avenir text-[18px] font-bold mt-2 text-secondary">
               {t("Adaptation")}: <span className="italic font-normal">{t(`adaptation.${adaptation}`)}</span>
             </p>
 
-            <p className="mt-4 font-avenir text-[22px] text-secondary">{t("Your story")}:</p>
+            <p className="mt-2 font-avenir text-[18px] text-secondary">{t("Your story")}:</p>
             <h2 className="font-flapstick italic text-[30px] text-primary mb-6 text-center">
               {title}
             </h2>
 
-            <p className="font-avenir text-[22px] text-secondary mb-4 whitespace-pre-line">
+            <p className="font-avenir text-[18px] text-secondary mb-2 whitespace-pre-line">
               {story}
             </p>
 
-            <p className="font-avenir font-extrabold italic text-[22px] text-secondary">
+            <p className="font-avenir font-extrabold italic text-[18px] text-secondary">
               {t("Moral")}: {moral}
             </p>
           </div>
