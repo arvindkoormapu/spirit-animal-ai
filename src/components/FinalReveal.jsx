@@ -1,79 +1,189 @@
-import React from 'react';
+// FinalReveal.js with styled email success popup
+import React, { useRef, useState } from 'react';
 import swirlBg from '../assets/backgrounds/swirl-bg.png';
 import greenLeft from '../assets/backgrounds/green5.png';
 import logoRight from '../assets/backgrounds/logo-right.png';
+import axios from 'axios';
+import emailjs from '@emailjs/browser';
+import { useTranslation } from 'react-i18next';
 
-export default function FinalReveal({ animal, userName }) {
+const VITE_EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
+const VITE_EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+const VITE_EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+
+export default function FinalReveal({ animal, adaptation, story, title, moral }) {
+  const { t, i18n } = useTranslation();
+
+  const printRef = useRef(null);
+  const [showEmailPopup, setShowEmailPopup] = useState(false);
+  const [email, setEmail] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [emailError, setEmailError] = useState('');
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleSendEmail = async () => {
+    if (!validateEmail(email)) {
+      setEmailError('Please enter a valid email address.');
+      return;
+    }
+
+    try {
+      setIsSending(true);
+      setEmailError('');
+
+      try {
+        await emailjs.send(
+          VITE_EMAILJS_SERVICE_ID,
+          VITE_EMAILJS_TEMPLATE_ID,
+          {
+            user_email: email,
+            animal_name: t(`animals.${animal.name}`),
+            traits: animal.traits.join(', '),
+            adaptation: t(`adaptation.${adaptation}`),
+            image_url: `${window.location.origin}${animal.image}`,
+            story_title: title,
+            story: story,
+            moral: moral,
+          },
+          VITE_EMAILJS_PUBLIC_KEY
+        );
+        setEmailSent(true);
+        setShowEmailPopup(false);
+        setEmail('');
+      } catch (error) {
+        console.error('EmailJS Error:', error);
+        alert('Failed to send email. Please try again.');
+      } finally {
+        setIsSending(false);
+      }
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      alert('Failed to send email. Please try again.');
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   if (!animal) return null;
 
   return (
     <div
-      className="min-h-screen w-full h-dvh overflow-hidden bg-cover bg-center relative"
+      className="min-h-screen w-full h-dvh overflow-hidden bg-cover bg-center relative print:bg-white print:h-auto print:overflow-visible"
       style={{ backgroundImage: `url(${swirlBg})` }}
     >
       <img
         src={greenLeft}
         alt="decorative plant left"
-        className="absolute bottom-[0px] left-[20px] w-[200px] z-10"
+        className="absolute bottom-[0px] left-[20px] w-[200px] z-10 print:hidden"
       />
       <img
         src={logoRight}
         alt="logo top right"
-        className="absolute top-[0px] right-[20px] w-[300px] z-10"
+        className="absolute top-[0px] right-[20px] w-[300px] z-10 print:hidden"
       />
 
-      <div className="flex flex-col items-center justify-center min-h-screen px-6">
-        <div className="bg-white/90 flex flex-col items-center justify-center px-10 py-12 mx-auto w-[90%] max-w-[1200px] rounded-[20px]">
-          <div className="w-full">
-            <div className="flex flex-col md:flex-row justify-between items-start w-full mb-6">
-              <div className="flex-1 pr-4">
-                <p className="font-avenir text-[22px] font-bold text-secondary">
-                  Spirit Animal: <span className="italic font-normal">{capitalize(animal.name)}</span>{' '}
-                  <span>({animal.traits.join(', ')})</span>
-                </p>
+      <div ref={printRef} className="flex flex-col items-center justify-center min-h-screen px-6 print:min-h-0 print:px-0">
+        <div className="bg-white flex flex-col items-center justify-start px-10 py-12 mx-auto w-[90%] max-w-[1200px] rounded-[20px] max-h-[90vh] overflow-y-auto relative print:w-full print:max-w-none print:rounded-none print:overflow-visible print:h-auto print:p-10">
+          <div className="w-full flex justify-center mb-6">
+            <img
+              src={animal.image}
+              alt={animal.name}
+              className="w-[300px] mx-auto"
+            />
+          </div>
 
-                <p className="font-avenir text-[22px] font-bold mt-4 text-secondary">
-                  Adaptation: <span className="italic font-normal">Arabic</span>
-                </p>
+          <div className="w-full px-2 md:px-4">
+            <p className="font-avenir text-[22px] font-bold text-secondary">
+              {t("Spirit Animal")}: <span className="italic font-normal">{t(`animals.${animal.name}`)}</span> {' '}
+              (
+              {animal.traits.map((trait, index) => (
+                <span key={trait}>
+                  {t(`traits.${trait}`)}
+                  {index < animal.traits.length - 1 ? ', ' : ''}
+                </span>
+              ))}
+              )
+            </p>
 
-                <p className="mt-4 font-avenir text-[22px] text-secondary">Your story:</p>
-              </div>
-              <div className="flex-shrink-0">
-                <img
-                  src={animal.image}
-                  alt={animal.name}
-                  className="w-[300px] mx-auto"
-                />
-              </div>
-            </div>
+            <p className="font-avenir text-[22px] font-bold mt-4 text-secondary">
+              {t("Adaptation")}: <span className="italic font-normal">{t(`adaptation.${adaptation}`)}</span>
+            </p>
 
+            <p className="mt-4 font-avenir text-[22px] text-secondary">{t("Your story")}:</p>
             <h2 className="font-flapstick italic text-[30px] text-primary mb-6 text-center">
-              Sara and the Mountain of Mirrors
+              {title}
             </h2>
 
-            <p className="font-avenir text-[22px] text-secondary mb-4 px-2 md:px-4">
-              In a warm land of golden sands and tall palm trees, Sara stood with her friend Hare at the base of Jabal al-Hikmah—the Mountain of Wisdom. "Race to the top!" Hare shouted, darting ahead impulsively. Sara followed slowly and carefully. Soon, Hare became exhausted beneath the hot sun, stopping halfway. Sara reached him, offering water kindly. "Slow steps and patience," she advised. Understanding his mistake, Hare nodded. Together, steadily, they climbed higher, encouraging each other. At the summit, Hare smiled warmly, realizing patience had helped them conquer the mountain.
+            <p className="font-avenir text-[22px] text-secondary mb-4 whitespace-pre-line">
+              {story}
             </p>
 
-            <p className="font-avenir font-extrabold italic text-[22px] text-secondary px-2 md:px-4">
-              Moral: Quick feet are good—but wise minds go farther.
+            <p className="font-avenir font-extrabold italic text-[22px] text-secondary">
+              {t("Moral")}: {moral}
             </p>
-
-            <div className="flex flex-col md:flex-row justify-center gap-6 mt-10 px-4">
-              <button className="font-avenir bg-primary hover:bg-secondary transition text-white font-bold text-[18px] px-10 py-4 rounded-full w-full md:w-[350px]">
-                Print my story
-              </button>
-              <button className="font-avenir bg-primary hover:bg-secondary transition text-white font-bold text-[18px] px-10 py-4 rounded-full w-full md:w-[350px]">
-                Receive by email
-              </button>
-            </div>
           </div>
+
+          <div className="sticky bottom-[-50px] left-0 right-0 bg-white/100 w-full mt-10 pt-6 pb-4 px-4 flex flex-col md:flex-row justify-center gap-6 print:hidden">
+            <button onClick={handlePrint} className="font-avenir bg-primary hover:bg-secondary transition text-white font-bold text-[18px] px-10 py-4 rounded-full w-full md:w-[350px]">
+              {t("Print my story")}
+            </button>
+            <button onClick={() => { setShowEmailPopup(true); setEmailSent(false); }} className="font-avenir bg-primary hover:bg-secondary transition text-white font-bold text-[18px] px-10 py-4 rounded-full w-full md:w-[350px]">
+              {t("Receive by email")}
+            </button>
+          </div>
+
+          {showEmailPopup && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+              <div className="bg-white text-secondary rounded-xl p-6 w-[90%] max-w-md text-center relative">
+                {emailSent ? (
+                  <>
+                    <div className="flex flex-col items-center">
+                      <button onClick={() => setShowEmailPopup(false)} className="absolute top-2 right-3 text-xl">×</button>
+                      <div className="w-14 h-14 bg-green-600 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <p className="mt-4 font-bold text-lg font-avenir">Successfully sent your story!</p>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => setShowEmailPopup(false)} className="absolute top-2 right-3 text-xl">×</button>
+                    <h3 className="font-avenir text-xl font-bold mb-10">Send story to your email</h3>
+
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      className="font-avenir w-[350px] px-4 py-3 border rounded-full text-secondary text-center hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary transition duration-200"
+                    />
+                    {emailError && <p className="text-primary mt-2 text-sm">{emailError}</p>}
+                    <div className="flex justify-center gap-4 mt-4">
+                      <button
+                        onClick={handleSendEmail}
+                        disabled={isSending}
+                        className="bg-primary w-[350px] font-avenir text-white px-6 py-3 rounded-full font-bold"
+                      >
+                        {isSending ? 'Sending...' : 'Send'}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
-}
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
 }

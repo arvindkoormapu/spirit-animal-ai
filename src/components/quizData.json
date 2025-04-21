@@ -43,11 +43,11 @@
     "id": 4,
     "text": "What kind of adventure would you love to go on?",
     "options": [
-      { "text": "Exploring a hidden forest", "theme": "discovery" },
-      { "text": "Solving a mystery in a castle", "theme": "mystery" },
-      { "text": "Helping a friend across a river", "theme": "teamwork" },
-      { "text": "Climbing a tall mountain", "theme": "perseverance" },
-      { "text": "Visiting a place full of magic and wonder", "theme": "magic" }
+      { "text": "Exploring a hidden forest", "theme": "The story involves discovery, nature, or finding a secret path" },
+      { "text": "Solving a mystery in a castle", "theme": "The story involves a problem-solving quest, riddles, or puzzles" },
+      { "text": "Helping a friend across a river", "theme": "The story involves teamwork, empathy, or facing fear together" },
+      { "text": "Climbing a tall mountain", "theme": " The story involves perseverance, self-belief, or overcoming a personal challenge" },
+      { "text": "Visiting a place full of magic and wonder", "theme": "The story is whimsical, imaginative, and surreal" }
     ]
   },
   {

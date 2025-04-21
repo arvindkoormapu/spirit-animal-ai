@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import WelcomePage from './components/WelcomePage';
 import QuizFlow from './components/QuizFlow';
+import '../i18n';
 
 export default function App() {
   const [userName, setUserName] = useState('');

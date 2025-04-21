@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import swirlBg from '../assets/backgrounds/swirl-bg.png';
 import frameImg from '../assets/frame/final-frame3.png';
 import greenLeft from '../assets/backgrounds/green2.png';
 import greenRight from '../assets/backgrounds/green3.png';
 import logoRight from '../assets/backgrounds/logo-right.png';
+import { useTranslation } from 'react-i18next';
 
 export default function WelcomePage({ name, setName, onStart }) {
+  const { t, i18n } = useTranslation();
 
   const handleStart = () => {
     if (name.trim()) {
@@ -35,6 +37,22 @@ export default function WelcomePage({ name, setName, onStart }) {
         className="absolute bottom-[-30px] right-[80px] w-[200px] z-10"
       />
 
+      <div className="absolute top-[162px] right-[166px] z-50 bg-white rounded-full flex overflow-hidden border border-primary text-sm font-bold">
+        <button
+          onClick={() => i18n.changeLanguage('en')}
+          className={`font-avenir px-4 py-2 ${i18n.language === 'en' ? 'bg-primary text-white' : 'text-primary'}`}
+        >
+          EN
+        </button>
+        <button
+          onClick={() => i18n.changeLanguage('ar')}
+          className={`font-avenir px-4 py-2 ${i18n.language === 'ar' ? 'bg-primary text-white' : 'text-primary'}`}
+        >
+          عربى
+        </button>
+      </div>
+
+
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
         <img
           src={logoRight}
@@ -42,27 +60,27 @@ export default function WelcomePage({ name, setName, onStart }) {
           className=" w-[250px] z-10"
         />
         <h1 className="text-[42px] md:text-[52px] mt-[40px] font-flapstick leading-tight font-semibold text-primary text-center">
-          Discover Your Tale through AI
+          {t('title')}
         </h1>
 
         <p className="font-avenir text-center text-[32px] text-secondary max-w-2xl mt-12">
-          Step into the world of ancient wisdom and find your spirit animal from Kalila wa Dimna!
+          {t('subtitle')}
         </p>
 
         <div className="mt-12 w-full max-w-md text-center">
-          <label className="font-avenir font-extrabold text-[32px] text-secondary">Enter Your Name</label>
+          <label className="font-avenir font-extrabold text-[32px] text-secondary">{t('enterName')}</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="font-avenir mt-4 w-[350px] text-[26px] text-center px-10 py-4 rounded-full border focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="font-avenir mt-4 w-[350px] text-[26px] text-center px-10 py-4 rounded-full border focus:outline-none focus:ring-2 focus:ring-primary"
           />
 
           <button
             onClick={handleStart}
             className="font-avenir mt-4 w-[350px] bg-primary hover:bg-secondary transition text-white font-bold text-[26px] px-20 py-4 rounded-full"
           >
-            Start Quiz
+            {t('startQuiz')}
           </button>
         </div>
       </div>
