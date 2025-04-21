@@ -236,7 +236,7 @@ export default function QuizFlow({ userName }) {
       >
         <img src={greenLeft} alt="decorative plant left" className="absolute bottom-[0px] left-[20px] w-[200px] z-10" />
         <img src={logoRight} alt="logo top right" className="absolute top-[0px] right-[20px] w-[300px] z-10" />
-        <div className="text-[50px] font-avenir text-secondary animate-zoom-out max-w-xl">
+        <div className="text-[50px] font-avenir text-secondary animate-zoom-grow max-w-xl">
           {t('quiz.loader2')}
         </div>
       </div>
