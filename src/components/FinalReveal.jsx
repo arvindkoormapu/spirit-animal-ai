@@ -61,7 +61,7 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
           VITE_EMAILJS_PUBLIC_KEY
         );
         setEmail('');
-        setEmailSent(true); 
+        setEmailSent(true);
       } catch (error) {
         console.error('EmailJS Error:', error);
         alert('Failed to send email. Please try again.');
@@ -132,6 +132,11 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
             <p className="font-avenir font-extrabold italic text-[18px] text-secondary">
               {t("Moral")}: {moral}
             </p>
+            <img
+              src={logoRight}
+              alt="logo top right"
+              className="w-[100px] z-10 hidden print:block print:relative print:mt-6 print:ml-0 print:mr-auto"
+            />
           </div>
 
           <div className="sticky bottom-[-50px] left-0 right-0 bg-white/100 w-full mt-10 pt-6 pb-4 px-4 flex flex-col md:flex-row justify-center gap-6 print:hidden">
@@ -188,11 +193,7 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
         </div>
       </div>
 
-      <img
-        src={logoRight}
-        alt="logo top right"
-        className="absolute bottom-[20px] left-[20px] w-[100px] z-10 hidden print:block"
-      />
+
     </div>
   );
 }
