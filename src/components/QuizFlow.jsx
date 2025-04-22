@@ -233,7 +233,9 @@ export default function QuizFlow({ userName }) {
 
   const handleAnswerClick = (option) => {
     setAnswers([...answers, { question: currentQuestion.text, answer: option }]);
-    setCurrentIndex((prev) => prev + 1);
+    setTimeout(() => {
+      setCurrentIndex((prev) => prev + 1);
+    }, 300);
   };
 
   useEffect(() => {
