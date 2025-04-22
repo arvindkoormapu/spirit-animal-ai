@@ -82,7 +82,7 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
   if (!animal) return null;
 
   const isArabic = i18n.language === 'ar';
-  const printFontSize = isArabic ? 'print:text-[16px]' : 'print:text-[14px]';
+  const printFontSize = isArabic ? 'print:text-[15px]' : 'print:text-[13px]';
   const printFontSizeTitle = isArabic ? 'print:text-[22px]' : 'print:text-[22px]';
 
   return (
