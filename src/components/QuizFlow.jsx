@@ -196,7 +196,7 @@ async function generateStory({ t, name, character, animal, theme, adaptation, la
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        model: 'gpt-4o',
+        model: 'gpt-4',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.9,
         max_tokens: 800,
