@@ -353,7 +353,7 @@ export default function QuizFlow({ userName }) {
                   document.activeElement?.blur();
                   handleAnswerClick(option)
                 }}
-                className="bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
+                className="focus:outline-none bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
               >
                 {option.text}
               </button>
@@ -367,7 +367,7 @@ export default function QuizFlow({ userName }) {
                   document.activeElement?.blur();
                   handleAnswerClick(currentQuestion.options[4])
                 }}
-                className="col-span-2 bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
+                className="focus:outline-none col-span-2 bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
               >
                 {currentQuestion.options[4].text}
               </button>
