@@ -138,16 +138,17 @@ function generateStoryPrompt({ t, name, character, animal, theme, adaptation, la
     The story, including the title, body, and moral, must be written in English.
     The title must include the child's name (${name}).
 
+    The story body must be **between 150 and 160 words only** — not more, not less.
+
     Please return ONLY valid JSON using this format:
     {
       "title": "Title of the story in English (must include ${name})",
-      "story": "A story of at least 150 words written in English.",
+      "story": "A story between 150 and 160 words written in English.",
       "moral": "A 1-line moral in English"
     }
 
     Do not include any explanations, markdown, or extra formatting.
     Return only a valid JSON object as plain text.
-    Make sure the story is at least 150 words long. Do not stop early.
   `.trim();
   }
   if (language === 'ar') {
@@ -159,6 +160,7 @@ function generateStoryPrompt({ t, name, character, animal, theme, adaptation, la
     The story should follow a ${t("Adaptation")} cultural style and center around the chosen adventure: ${theme}.
 
     In the story, make sure to clearly refer to the concept of a "spirit animal" using the Arabic term "الحيوان الرمزي".
+    IMPORTANT: The story must contain between 180 and 200 words — not less, not more. Do NOT write a 150-word story.
 
     Do not name the animal as ${name}, and do not refer to the animal using the child's name.
     Do not compare the child to the animal.
@@ -172,13 +174,12 @@ function generateStoryPrompt({ t, name, character, animal, theme, adaptation, la
     Please return ONLY valid JSON using this format:
     {
       "title": "Title of the story in العربية الفصحى (must include ${name})",
-      "story": "A story of at least 150 words written in العربية الفصحى.",
+      "story": "A story between 180 and 200 words written in العربية الفصحى.",
       "moral": "A 1-line moral in العربية الفصحى"
     }
 
     Do not include any explanations, markdown, or extra formatting.
     Return only a valid JSON object as plain text.
-    Make sure the story is at least 150 words long. Do not stop early.
   `.trim();
   }
 }

@@ -3,6 +3,8 @@ import React, { useRef, useState } from 'react';
 import swirlBg from '../assets/backgrounds/swirl-bg.png';
 import greenLeft from '../assets/backgrounds/green5.png';
 import logoRight from '../assets/backgrounds/logo-right.png';
+import logoleft from '../assets/backgrounds/logo.png';
+
 import emailjs from '@emailjs/browser';
 import { useTranslation } from 'react-i18next';
 
@@ -48,7 +50,8 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
             traits: animal.traits.map(trait => t(`traits.${trait}`)).join(', '),
             adaptation: t(`adaptation.${adaptation}`),
             image_url: `${window.location.origin}${animal.image}`,
-            logo_url: `${window.location.origin}/logo-right.png`,
+            logo_right_url: `${window.location.origin}/logo-right.png`,
+            logo_left_url: `${window.location.origin}/logo.png`,
             story_title: title,
             story: story,
             moral: moral,
@@ -78,6 +81,10 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
 
   if (!animal) return null;
 
+  const isArabic = i18n.language === 'ar';
+  const printFontSize = isArabic ? 'print:text-[16px]' : 'print:text-[14px]';
+  const printFontSizeTitle = isArabic ? 'print:text-[22px]' : 'print:text-[22px]';
+
   return (
     <div
       className="min-h-screen w-full h-dvh overflow-hidden bg-cover bg-center relative print:bg-white print:h-auto print:overflow-visible"
@@ -95,6 +102,15 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
         onClick={() => window.location.reload()}
       />
 
+      <div className="hidden print:flex justify-between w-full px-10 absolute top-10 left-0 z-50">
+        <div></div>
+        <img
+          src={logoRight}
+          alt="logo right"
+          className="w-[70px] print:block"
+        />
+      </div>
+
       <div ref={printRef} className="flex flex-col items-center justify-center min-h-screen px-6 print:min-h-0 print:px-0">
         <div className="bg-white flex flex-col items-center justify-start px-10 py-12 mx-auto w-[90%] max-w-[1200px] rounded-[20px] max-h-[90vh] overflow-y-auto relative print:w-full print:max-w-none print:rounded-none print:overflow-visible print:h-auto print:p-10">
           <div className="w-full flex justify-center mb-6">
@@ -106,7 +122,7 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
           </div>
 
           <div className={`w-full px-2 md:px-4 ${isRTL ? 'text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>
-            <p className="font-avenir text-[18px] font-bold text-secondary">
+            <p className={`font-avenir text-[18px] font-bold text-secondary ${printFontSize}`}>
               {t("Spirit Animal")}: <span className="italic font-normal">{t(`animals.${animal.name}`)}</span> {' '}
               ({animal.traits.map((trait, index) => (
                 <span key={trait}>
@@ -116,26 +132,26 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
               ))})
             </p>
 
-            <p className="font-avenir text-[18px] font-bold mt-2 text-secondary">
+            <p className={`font-avenir text-[18px] font-bold mt-2 text-secondary ${printFontSize}`}>
               {t("Adaptation")}: <span className="italic font-normal">{t(`adaptation.${adaptation}`)}</span>
             </p>
 
-            <p className="mt-2 font-avenir text-[18px] text-secondary">{t("Your story")}:</p>
-            <h2 className="font-flapstick italic text-[30px] text-primary mb-6 text-center">
+            <p className={`mt-2 font-avenir text-[18px] text-secondary ${printFontSize}`}>{t("Your story")}:</p>
+            <h2 className={`font-flapstick italic text-[30px] text-primary mb-6 text-center ${printFontSizeTitle}`}>
               {title}
             </h2>
 
-            <p className="font-avenir text-[18px] text-secondary mb-2 whitespace-pre-line">
+            <p className={`font-avenir text-[18px] text-secondary mb-2 whitespace-pre-line ${printFontSize}`}>
               {story}
             </p>
 
-            <p className="font-avenir font-extrabold italic text-[18px] text-secondary">
+            <p className={`font-avenir font-extrabold italic text-[18px] text-secondary ${printFontSize}`}>
               {t("Moral")}: {moral}
             </p>
             <img
-              src={logoRight}
+              src={logoleft}
               alt="logo top right"
-              className="w-[100px] z-10 hidden print:block print:relative print:mt-6 print:ml-0 print:mr-auto"
+              className="w-[130px] z-10 hidden print:block print:relative print:mt-6 print:ml-0 print:mr-auto"
             />
           </div>
 
