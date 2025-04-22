@@ -102,12 +102,16 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
         onClick={() => window.location.reload()}
       />
 
-      <div className="hidden print:flex justify-between w-full px-10 absolute top-10 left-0 z-50">
-        <div></div>
+      <div className="hidden mt-[20px] print:flex justify-between w-full px-10 absolute top-0 left-0 z-50">
+        <img
+          src={logoleft}
+          alt="logo left"
+          className="w-[70px] print:block"
+        />
         <img
           src={logoRight}
           alt="logo right"
-          className="w-[70px] print:block"
+          className="w-[50px] print:block"
         />
       </div>
 
@@ -148,11 +152,6 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
             <p className={`font-avenir font-extrabold italic text-[18px] text-secondary ${printFontSize}`}>
               {t("Moral")}: {moral}
             </p>
-            <img
-              src={logoleft}
-              alt="logo top right"
-              className="w-[130px] z-10 hidden print:block print:relative print:mt-6 print:ml-0 print:mr-auto"
-            />
           </div>
 
           <div className="sticky bottom-[-50px] left-0 right-0 bg-white/100 w-full mt-10 pt-6 pb-4 px-4 flex flex-col md:flex-row justify-center gap-6 print:hidden">
