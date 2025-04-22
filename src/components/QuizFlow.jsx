@@ -228,13 +228,17 @@ export default function QuizFlow({ userName }) {
   const [finalAnimal, setFinalAnimal] = useState(null);
   const [storyReady, setStoryReady] = useState(false);
   const [storyData, setStoryData] = useState(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const currentQuestion = quizData[currentIndex];
 
   const handleAnswerClick = (option) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setAnswers([...answers, { question: currentQuestion.text, answer: option }]);
     setTimeout(() => {
       setCurrentIndex((prev) => prev + 1);
+      setIsTransitioning(false);
     }, 300);
   };
 
@@ -345,36 +349,38 @@ export default function QuizFlow({ userName }) {
             {currentQuestion.text}
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center">
-            {currentQuestion.options.slice(0, 4).map((option, idx) => (
-              <button
-                key={idx}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.currentTarget.blur();
-                  document.activeElement?.blur();
-                  handleAnswerClick(option)
-                }}
-                className="focus:outline-none bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
-              >
-                {option.text}
-              </button>
-            ))}
+          {!isTransitioning && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center">
+              {currentQuestion.options.slice(0, 4).map((option, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.currentTarget.blur();
+                    document.activeElement?.blur();
+                    handleAnswerClick(option)
+                  }}
+                  className="focus:outline-none bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
+                >
+                  {option.text}
+                </button>
+              ))}
 
-            {currentQuestion.options.length === 5 && (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.currentTarget.blur();
-                  document.activeElement?.blur();
-                  handleAnswerClick(currentQuestion.options[4])
-                }}
-                className="focus:outline-none col-span-2 bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
-              >
-                {currentQuestion.options[4].text}
-              </button>
-            )}
-          </div>
+              {currentQuestion.options.length === 5 && (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.currentTarget.blur();
+                    document.activeElement?.blur();
+                    handleAnswerClick(currentQuestion.options[4])
+                  }}
+                  className="focus:outline-none col-span-2 bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
+                >
+                  {currentQuestion.options[4].text}
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
