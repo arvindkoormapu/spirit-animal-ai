@@ -106,12 +106,12 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
         <img
           src={logoleft}
           alt="logo left"
-          className="w-[70px] print:block"
+          className="w-[140px] object-contain print:block"
         />
         <img
           src={logoRight}
           alt="logo right"
-          className="w-[50px] print:block"
+          className="w-[100px] object-contain print:block"
         />
       </div>
 
