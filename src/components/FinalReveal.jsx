@@ -205,17 +205,16 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
               </div>
             </div>
           )}
-          {/* <div className="mt-8 text-center print:hidden">
-            <p className="font-avenir text-[16px] text-secondary">
-              Not satisfied?{" "}
+          <div className="mt-8 text-center print:hidden">
+            <p className="font-avenir text-[20px] text-secondary">
               <span
                 onClick={() => window.location.reload()}
                 className="underline text-primary cursor-pointer hover:text-secondary"
               >
-                Take the quiz again!
+                Start Over
               </span>
             </p>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

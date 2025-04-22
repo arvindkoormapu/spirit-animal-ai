@@ -348,7 +348,9 @@ export default function QuizFlow({ userName }) {
               <button
                 key={idx}
                 onClick={(e) => {
+                  e.preventDefault();
                   e.currentTarget.blur();
+                  document.activeElement?.blur();
                   handleAnswerClick(option)
                 }}
                 className="bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
@@ -360,7 +362,9 @@ export default function QuizFlow({ userName }) {
             {currentQuestion.options.length === 5 && (
               <button
                 onClick={(e) => {
+                  e.preventDefault();
                   e.currentTarget.blur();
+                  document.activeElement?.blur();
                   handleAnswerClick(currentQuestion.options[4])
                 }}
                 className="col-span-2 bg-primary text-white text-center px-6 py-5 rounded-[30px] w-80 text-[22px] font-avenir hover:bg-secondary transition"
