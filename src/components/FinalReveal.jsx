@@ -91,7 +91,8 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
       <img
         src={logoRight}
         alt="logo top right"
-        className="absolute top-[0px] right-[20px] w-[300px] z-10 block print:hidden"
+        className="absolute top-[0px] right-[20px] w-[300px] z-10 block cursor-pointer print:hidden"
+        onClick={() => window.location.reload()}
       />
 
       <div ref={printRef} className="flex flex-col items-center justify-center min-h-screen px-6 print:min-h-0 print:px-0">
@@ -107,14 +108,12 @@ export default function FinalReveal({ animal, adaptation, story, title, moral })
           <div className={`w-full px-2 md:px-4 ${isRTL ? 'text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>
             <p className="font-avenir text-[18px] font-bold text-secondary">
               {t("Spirit Animal")}: <span className="italic font-normal">{t(`animals.${animal.name}`)}</span> {' '}
-              (
-              {animal.traits.map((trait, index) => (
+              ({animal.traits.map((trait, index) => (
                 <span key={trait}>
                   {t(`traits.${trait}`)}
                   {index < animal.traits.length - 1 ? ', ' : ''}
                 </span>
-              ))}
-              )
+              ))})
             </p>
 
             <p className="font-avenir text-[18px] font-bold mt-2 text-secondary">
