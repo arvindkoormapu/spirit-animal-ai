@@ -12,11 +12,13 @@
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "axios": "^1.8.4",
+    "firebase": "^11.6.0",
     "i18next": "^25.0.1",
     "i18next-browser-languagedetector": "^8.0.5",
     "i18next-http-backend": "^3.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-firebase-hooks": "^5.1.1",
     "react-i18next": "^15.4.1",
     "react-router-dom": "^6.30.0"
   },

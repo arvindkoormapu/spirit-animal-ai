@@ -266,6 +266,8 @@ export default function QuizFlow({ userName }) {
         setStoryReady(true);
         setIsGenerating(false);
       });
+
+      
     }
   }, [currentQuestion]);
 
@@ -293,7 +295,7 @@ export default function QuizFlow({ userName }) {
 
   if (finalAnimal && storyReady && storyData) {
     const adaptation = answers.find(a => a.answer.adaptation)?.answer.adaptation;
-    return <FinalReveal animal={finalAnimal} adaptation={adaptation} title={storyData.title} story={storyData.story} moral={storyData.moral} />;
+    return <FinalReveal userName={userName} animal={finalAnimal} adaptation={adaptation} title={storyData.title} story={storyData.story} moral={storyData.moral} />;
   }
 
   if (!currentQuestion) return null;

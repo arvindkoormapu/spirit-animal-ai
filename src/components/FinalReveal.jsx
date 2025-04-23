@@ -1,26 +1,45 @@
 // FinalReveal.js with styled email success popup
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import swirlBg from '../assets/backgrounds/swirl-bg.png';
 import greenLeft from '../assets/backgrounds/green5.png';
 import logoRight from '../assets/backgrounds/logo-right.png';
 import logoleft from '../assets/backgrounds/logo.png';
-
 import emailjs from '@emailjs/browser';
 import { useTranslation } from 'react-i18next';
+import { storeStory } from '../utils/storeStory';
 
 const VITE_EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
 const VITE_EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
 const VITE_EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
-export default function FinalReveal({ animal, adaptation, story, title, moral }) {
+export default function FinalReveal({ userName, animal, adaptation, story, title, moral }) {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const printRef = useRef(null);
+  const hasStoredRef = useRef(false);
+
   const [showEmailPopup, setShowEmailPopup] = useState(false);
   const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [emailError, setEmailError] = useState('');
+
+  useEffect(() => {
+    if (!hasStoredRef.current && animal && story && title && moral && userName) {
+      storeStory({
+        name: userName,
+        animal: t(`animals.${animal.name}`),
+        adaptation: t(`adaptation.${adaptation}`),
+        storyData: {
+          title,
+          story,
+          moral
+        },
+        language: i18n.language
+      });
+      hasStoredRef.current = true; 
+    }
+  }, [animal, story, title, moral, userName, i18n.language]);
 
   const handlePrint = () => {
     window.print();
