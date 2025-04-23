@@ -166,7 +166,8 @@ function generateStoryPrompt({ t, name, character, animal, theme, adaptation, la
     Do not compare the child to the animal.
     The animal should appear as a guide, friend, or source of wisdom — not a reflection of the child.
 
-    Don't be spiritual — avoid mystical or supernatural language. Keep the tone symbolic, moral, and child-friendly.
+    Avoid mystical or supernatural language — do not make the story spiritual or magical.
+    Keep the tone symbolic, moral, and child-friendly.
 
     The story, including title, body, and moral, must be in العربية الفصحى.
     The title must include the child's name (${name}).
